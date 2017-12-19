@@ -25,10 +25,17 @@ public class ProductCodeSearch {
         } catch (Exception e) {
             throw new IOException("Not found");
         }
-        if (totalItems != 1) {
+        Element element = null;
+        for(Element e : doc.select("article.box-product-full")){
+            if(e.attr("data-id").trim().equals(URLDecoder.decode(prouctCode, "UTF-8"))){
+                element = e;
+                break;
+            }
+        }
+        if(element==null){
             return null;
         }
-        String uri = doc.select("article.box-product-full").get(0).select("a.book-title").get(0).attr("abs:href").trim();
+        String uri = element.select("a.book-title").get(0).attr("abs:href").trim();
         if (uri.contains("www.libri.hu/muleiras/")) {
             doc = Jsoup.connect(uri).userAgent("Mozilla").validateTLSCertificates(false).get();
             for(Element e : doc.select("article.box-product-full")){
