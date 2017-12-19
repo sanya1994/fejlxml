@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.inf.unideb.hu/Libri" xmlns:tns="http://www.inf.unideb.hu/Libri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="book" type="tns:book"/>
+
+  <xs:element name="searchResultItem" type="tns:searchResultItem"/>
+
+  <xs:element name="searchResults" type="tns:searchResults"/>
+
+  <xs:complexType name="book">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="subTitle" type="xs:string" minOccurs="0"/>
+      <xs:element name="productCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="isbn13" type="xs:string"/>
+      <xs:element name="authors" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="author" type="xs:string" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="price" type="tns:price" minOccurs="0"/>
+      <xs:element name="loyaltyPoints" type="xs:int" minOccurs="0"/>
+      <xs:element name="publisher" type="xs:string"/>
+      <xs:element name="published_date" type="xs:int" minOccurs="0"/>
+      <xs:element name="pages" type="xs:nonNegativeInteger" minOccurs="0"/>
+      <xs:element name="language" type="xs:string" minOccurs="0"/>
+      <xs:element name="cover" type="xs:string" minOccurs="0"/>
+      <xs:element name="transport" type="tns:transport" minOccurs="0"/>
+      <xs:element name="exceptedDate" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="rating" type="tns:rating"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="deliverypoints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="deliverypoint" type="tns:deliveryPoint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="bestsellers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="bestseller" type="tns:smallBook" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="publisher_news" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="publisher_new" type="tns:smallBook" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="author_books" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="author_book" type="tns:smallBook" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:string" use="required"/>
+    <xs:attribute name="antiquePartner" type="xs:boolean"/>
+    <xs:attribute name="ebook" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="price">
+    <xs:sequence>
+      <xs:element name="original_price" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="actual_price" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="discount" type="tns:discount" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="discount">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="discountType" type="tns:discountType"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="transport">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="free" type="xs:boolean"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="rating">
+    <xs:simpleContent>
+      <xs:extension base="xs:int">
+        <xs:attribute name="count" type="xs:int"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="deliveryPoint">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="quantity" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="smallBook">
+    <xs:sequence>
+      <xs:element name="author" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="productCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="price" type="tns:price" minOccurs="0"/>
+      <xs:element name="publisher" type="xs:string" minOccurs="0"/>
+      <xs:element name="category" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="searchResultItem">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="authors" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="author" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="productCode" type="xs:string"/>
+      <xs:element name="price" type="tns:price" minOccurs="0"/>
+      <xs:element name="loyaltyPoints" type="xs:int" minOccurs="0"/>
+      <xs:element name="transport" type="tns:transport" minOccurs="0"/>
+      <xs:element name="rating" type="tns:rating"/>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:string" use="required"/>
+    <xs:attribute name="ebook" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="searchResults">
+    <xs:sequence>
+      <xs:element name="item" type="tns:searchResultItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="itemsTotal" type="xs:int" use="required"/>
+    <xs:attribute name="from" type="xs:int" use="required"/>
+    <xs:attribute name="to" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="discountType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PERCENT"/>
+      <xs:enumeration value="NONE"/>
+      <xs:enumeration value="PLUSBOOK"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
